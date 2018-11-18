@@ -18,6 +18,10 @@ namespace DummyAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => {
+                builder.AllowAnyOrigin();
+            });
+
             app.UseMvc();
         }
     }
