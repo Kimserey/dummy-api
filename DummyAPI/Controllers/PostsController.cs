@@ -28,16 +28,19 @@ namespace DummyAPI.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
         public async Task<ActionResult<List<PostRecord>>> GetAll()
         {
             return await _dbContext.Posts.ToListAsync();
         }
 
+        [HttpGet("{postId}")]
         public async Task<ActionResult<PostRecord>> Get(int postId)
         {
             return await _dbContext.Posts.FindAsync(postId);
         }
 
+        [HttpPost]
         public async Task Post(PostHttpPostRequestBody body)
         {
             _dbContext.Add(new PostRecord

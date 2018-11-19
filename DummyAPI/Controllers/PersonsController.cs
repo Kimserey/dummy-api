@@ -8,6 +8,7 @@ namespace DummyAPI.Controllers
     [Route("api/persons")]
     public class PersonsController : ControllerBase
     {
+        [HttpGet]
         public ActionResult<Person[]> GetAll([FromServices] ILogger<PersonsController> logger)
         {
             logger.LogInformation("Get all persons.");

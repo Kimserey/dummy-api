@@ -24,16 +24,19 @@ namespace DummyAPI.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
         public async Task<ActionResult<List<AuthorRecord>>> GetAll()
         {
             return await _dbContext.Authors.ToListAsync();
         }
 
-        public async Task<ActionResult<AuthorRecord>> Get(int blogId)
+        [HttpGet("{authorId}")]
+        public async Task<ActionResult<AuthorRecord>> Get(int authorId)
         {
-            return await _dbContext.Authors.FindAsync(blogId);
+            return await _dbContext.Authors.FindAsync(authorId);
         }
 
+        [HttpPost]
         public async Task Post(AuthorHttpPostRequestBody body)
         {
             _dbContext.Add(new AuthorRecord {
