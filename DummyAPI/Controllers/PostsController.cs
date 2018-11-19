@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DummyAPI.Controllers
@@ -28,16 +29,53 @@ namespace DummyAPI.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<PostRecord>>> GetAll()
+        [HttpGet("1")]
+        public async Task<IActionResult> GetAll1()
         {
-            return await _dbContext.Posts.ToListAsync();
+            var result = (await _dbContext.Blogs
+                .AsNoTracking()
+                .Include(b => b.Posts)
+                .ThenInclude(p => p.Author)
+                .ToListAsync())
+                .Select(b => new
+                {
+                    url = b.Url,
+                    posts = b.Posts.Select(p => new { title = p.Title, author = p.Author.Name })
+                });
+
+            return Ok(result);
         }
 
-        [HttpGet("{postId}")]
+        [HttpGet("2")]
+        public async Task<IActionResult> GetAll2()
+        {
+            var result = (await _dbContext.Blogs
+                .Select(b => new
+                {
+                    url = b.Url,
+                    posts = b.Posts.Select(p => new { title = p.Title, author = p.Author.Name })
+                })
+                .ToListAsync());
+
+            return Ok(result);
+        }
+
+        [HttpGet("1/{postId}")]
         public async Task<ActionResult<PostRecord>> Get(int postId)
         {
-            return await _dbContext.Posts.FindAsync(postId);
+            var post = await _dbContext.Posts.AsNoTracking().SingleAsync(p => p.Id == postId);
+            post.Content = post.Content + " - Added";
+            await _dbContext.SaveChangesAsync();
+            return Ok(post);
+        }
+
+        [HttpGet("2/{postId}")]
+        public async Task<IActionResult> Get2(int postId)
+        {
+            var post = await _dbContext.Posts.FindAsync(postId);
+            post.Content = post.Content + " - Added";
+            await _dbContext.SaveChangesAsync();
+            return Ok(post);
         }
 
         [HttpPost]
