@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DummyAPI.Persistence;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DummyAPI
@@ -9,6 +11,7 @@ namespace DummyAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDbContext<BloggingContext>(options => options.UseSqlite("Data source=..\\dummy.db"));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
