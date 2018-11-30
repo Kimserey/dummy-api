@@ -1,4 +1,4 @@
-﻿using DummyAPI.Middlewares;
+﻿using DummyAPI.Monitoring;
 using DummyAPI.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +30,8 @@ namespace DummyAPI
             });
 
             services.AddSingleton<ICollectorRegistry>(DefaultCollectorRegistry.Instance);
+
+            services.AddMonitoring();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -46,8 +48,7 @@ namespace DummyAPI
             });
 
             app.UseMetricServer();
-            app.UseMiddleware<ResponseTimeMiddleware>();
-            app.UseMiddleware<StatusCodeMiddleware>();
+            app.UseMonitoring();
 
             app.UseCors(builder => {
                 builder.AllowAnyOrigin();

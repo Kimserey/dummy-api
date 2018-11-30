@@ -1,4 +1,5 @@
-﻿using DummyAPI.Persistence;
+﻿using DummyAPI.Monitoring;
+using DummyAPI.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace DummyAPI.Controllers
 
     [ApiController]
     [Route("api/posts")]
+    [Monitor]
     public class PostsController : ControllerBase
     {
         private BloggingContext _dbContext;

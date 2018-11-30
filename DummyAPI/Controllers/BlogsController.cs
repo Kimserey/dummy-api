@@ -1,4 +1,5 @@
-﻿using DummyAPI.Persistence;
+﻿using DummyAPI.Monitoring;
+using DummyAPI.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace DummyAPI.Controllers
         }
 
         [HttpGet("{blogId}")]
+        [Monitor]
         public async Task<ActionResult<BlogRecord>> Get(int blogId)
         {
             return await _dbContext.Blogs.FindAsync(blogId);
