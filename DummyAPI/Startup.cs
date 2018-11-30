@@ -1,11 +1,15 @@
-﻿using DummyAPI.Persistence;
+﻿using DummyAPI.Middlewares;
+using DummyAPI.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Prometheus;
+using Prometheus.Advanced;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 
 namespace DummyAPI
 {
@@ -25,6 +29,7 @@ namespace DummyAPI
                 c.SwaggerDoc("dummy", new Info { Title = "Dummy API" });
             });
 
+            services.AddSingleton<ICollectorRegistry>(DefaultCollectorRegistry.Instance);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -33,6 +38,16 @@ namespace DummyAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.Use((ctx, x) =>
+            {
+                Console.WriteLine(ctx.Request.Path);
+                return x.Invoke();
+            });
+
+            app.UseMetricServer();
+            app.UseMiddleware<ResponseTimeMiddleware>();
+            app.UseMiddleware<StatusCodeMiddleware>();
 
             app.UseCors(builder => {
                 builder.AllowAnyOrigin();
