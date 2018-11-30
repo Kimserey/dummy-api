@@ -44,4 +44,5 @@ type Startup() =
         ) |> ignore
 
 
-        app.UseMvc();
+        app.UseMvc()
+        |> ignore

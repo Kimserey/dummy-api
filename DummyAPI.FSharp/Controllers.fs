@@ -1,4 +1,4 @@
-﻿module DummyAPI.FSharp.Controller
+﻿namespace DummyAPI.FSharp
 
 open System
 open System.Linq

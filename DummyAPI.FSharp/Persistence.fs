@@ -3,12 +3,18 @@
 open Microsoft.EntityFrameworkCore
 open System
 
-type BlogRecord =
-    {
-        id: int
-        url: string
-        creationDate: Nullable<DateTimeOffset>
-    }
+//[<CLIMutable>]
+//type BlogRecord =
+//    {
+//        id: int
+//        url: string
+//        creationDate: Nullable<DateTimeOffset>
+//    }
+
+type BlogRecord() =
+    member val id = Unchecked.defaultof<int> with get, set
+    member val url = Unchecked.defaultof<string> with get, set
+    member val creationDate = Unchecked.defaultof<Nullable<DateTimeOffset>> with get, set
 
 type BloggingContext(opts: DbContextOptions<BloggingContext>) =
     inherit DbContext(opts)
