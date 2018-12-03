@@ -28,7 +28,12 @@ namespace DummyAPI.Monitoring
                 var histogram =
                     Metrics
                         .WithCustomRegistry(registry)
-                        .CreateHistogram("api_response_time_seconds", "API Response Time in seconds", null, "method", "path");
+                        .CreateHistogram(
+                            "api_response_time_seconds",
+                            "API Response Time in seconds",
+                            null,
+                            "method",
+                            "path");
 
                 histogram
                     .WithLabels(context.Request.Method, context.Request.Path)

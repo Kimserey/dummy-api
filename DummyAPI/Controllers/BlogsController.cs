@@ -25,6 +25,7 @@ namespace DummyAPI.Controllers
             _dbContext = dbContext;
         }
 
+        [Monitor]
         [HttpGet]
         public async Task<ActionResult<List<BlogRecord>>> GetAll()
         {
@@ -32,7 +33,6 @@ namespace DummyAPI.Controllers
         }
 
         [HttpGet("{blogId}")]
-        [Monitor]
         public async Task<ActionResult<BlogRecord>> Get(int blogId)
         {
             return await _dbContext.Blogs.FindAsync(blogId);
