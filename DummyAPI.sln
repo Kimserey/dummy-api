@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyAPI", "DummyAPI\DummyAPI.csproj", "{6F7A5522-67EE-4230-9F68-F5E914005A38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyAPI", "DummyAPI\DummyAPI.csproj", "{6F7A5522-67EE-4230-9F68-F5E914005A38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
